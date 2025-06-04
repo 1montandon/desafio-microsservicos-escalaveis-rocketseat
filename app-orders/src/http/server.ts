@@ -24,8 +24,6 @@ app.get('/health', (request, response) => {
 // Ver2 0% - 50% - 100%
 
 
-
-
 app.post('/orders', validateRequest(bodySchema), (request, response): void => {
     const { amount } = request.body
     console.log('Craeting an order with amount', amount)
