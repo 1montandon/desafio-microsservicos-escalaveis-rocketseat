@@ -13,8 +13,8 @@ export const orderStatusEnum = pgEnum('order_status', [
 
 export const orders = pgTable('orders', {
     id: text().primaryKey(),
-    customerId: text('customer_id').notNull().references(() => customers.id),
+    customerId: text().notNull().references(() => customers.id),
     amount: integer(),
     status: orderStatusEnum().notNull().default('pending'),
-    createdAt: timestamp('created_at').defaultNow().notNull()
+    createdAt: timestamp().defaultNow().notNull()
 })

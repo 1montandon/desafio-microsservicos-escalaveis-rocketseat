@@ -2,10 +2,10 @@ import express from 'express';
 import { z } from 'zod';
 import { validateRequest  } from 'zod-express-middleware';
 import cors from 'cors'
-import { channels } from '../broker/channels/index.ts';
 import { db } from '../database/client.ts';
 import { schema } from '../database/schema/index.ts';
 import {randomUUID} from 'node:crypto'
+import { dispatchOrderCreated } from '../broker/messages/order-created.ts';
 
 const app = express()
 app.use(express.json())
@@ -30,15 +30,27 @@ app.get('/health', (request, response) => {
 
 app.post('/orders', validateRequest(bodySchema), async (request, response): void => {
     const { amount } = request.body
+    const orderId = randomUUID()
     console.log('Craeting an order with amount', amount)
 
+    try{
     await db.insert(schema.orders).values({
-        id: randomUUID(),
+        id: orderId,
         customerId: '72ea6690-61a4-49c0-b2f3-e4235f22594d',
         amount
     })
+    }
+    catch(error){
+        console.log(error)
+    }
 
-    channels.orders.sendToQueue('orders', Buffer.from('Hello World'))
+    dispatchOrderCreated({
+        id: orderId,
+        amount,
+        customer:{
+            id: '72ea6690-61a4-49c0-b2f3-e4235f22594d'
+        }
+    })
 
     response.status(201).json({})
 })
