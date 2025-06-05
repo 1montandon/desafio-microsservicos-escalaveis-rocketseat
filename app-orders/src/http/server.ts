@@ -35,8 +35,7 @@ app.post('/orders', validateRequest(bodySchema), async (request, response): void
     await db.insert(schema.orders).values({
         id: randomUUID(),
         customerId: '72ea6690-61a4-49c0-b2f3-e4235f22594d',
-        amount,
-
+        amount
     })
 
     channels.orders.sendToQueue('orders', Buffer.from('Hello World'))
