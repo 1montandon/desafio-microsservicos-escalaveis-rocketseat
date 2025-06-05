@@ -2,6 +2,10 @@ import express from 'express';
 import { z } from 'zod';
 import { validateRequest  } from 'zod-express-middleware';
 import cors from 'cors'
+import { channels } from '../broker/channels/index.ts';
+import { db } from '../database/client.ts';
+import { schema } from '../database/schema/index.ts';
+import {randomUUID} from 'node:crypto'
 
 const app = express()
 app.use(express.json())
@@ -24,9 +28,19 @@ app.get('/health', (request, response) => {
 // Ver2 0% - 50% - 100%
 
 
-app.post('/orders', validateRequest(bodySchema), (request, response): void => {
+app.post('/orders', validateRequest(bodySchema), async (request, response): void => {
     const { amount } = request.body
     console.log('Craeting an order with amount', amount)
+
+    await db.insert(schema.orders).values({
+        id: randomUUID(),
+        customerId: '72ea6690-61a4-49c0-b2f3-e4235f22594d',
+        amount,
+
+    })
+
+    channels.orders.sendToQueue('orders', Buffer.from('Hello World'))
+
     response.status(201).json({})
 })
 

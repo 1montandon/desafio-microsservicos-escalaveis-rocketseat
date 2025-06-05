@@ -1,5 +1,6 @@
-import { orders } from "./orders";
+import { customers } from "./customers.ts";
+import { orders } from "./orders.ts";
 
 export const schema = {
-    orders
+    orders, customers
 }

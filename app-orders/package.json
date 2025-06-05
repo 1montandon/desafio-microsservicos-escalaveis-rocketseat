@@ -2,8 +2,9 @@
   "name": "app-orders",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "dev": "node --experimental-strip-types --watch --no-warnings src/http/server.ts",
+    "dev": "node --experimental-strip-types --env-file=.env --watch --no-warnings src/http/server.ts",
     "start": "node --experimental-strip-types --no-warnings src/http/server.ts"
   },
   "keywords": [],
@@ -11,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "amqplib": "^0.10.8",
     "cors": "^2.8.5",
     "drizzle-orm": "^0.44.2",
     "express": "^4.21.2",
@@ -20,6 +22,7 @@
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.2",
+    "@types/amqplib": "^0.10.7",
     "@types/cors": "^2.8.18",
     "@types/express": "^4.17.22",
     "@types/node": "^22.15.29",
