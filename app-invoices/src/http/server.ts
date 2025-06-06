@@ -1,3 +1,4 @@
+import '../broker/subscriber.ts'
 import express from 'express';
 import { z } from 'zod';
 import cors from 'cors';
