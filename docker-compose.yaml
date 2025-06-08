@@ -7,5 +7,12 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
 
+    jaeger:
+      image: jaegertracing/all-in-one:1.57
+      ports:
+        - "16686:16686" #UI
+        - "6831:6831/udp" # Envio dos Traces / temporizadores de codigo
+        - "14268:14268"
+
 volumes:
   rabbitmq_data:
