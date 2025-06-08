@@ -1,3 +1,5 @@
+import '@opentelemetry/auto-instrumentations-node/register'
+
 import '../broker/subscriber.ts'
 import express from 'express';
 import { z } from 'zod';
@@ -26,5 +28,5 @@ app.get('/health', (request, response) => {
 
 
 app.listen(3334, '0.0.0.0', () => {
-    console.log(`[invoices] Server is running on http://localhost:3333`);
+    console.log(`[invoices] Server is running on http://localhost:3334`);
 });
