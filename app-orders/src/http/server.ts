@@ -33,7 +33,7 @@ app.get('/health', (request, response) => {
 // Ver2 0% - 50% - 100%
 
 
-app.post('/orders', validateRequest(bodySchema), async (request, response): void => {
+app.post('/orders', validateRequest({ body: bodySchema }), async (request, response) => {
     const { amount } = request.body
     const orderId = randomUUID()
     console.log('Craeting an order with amount', amount)
