@@ -33,4 +33,20 @@ const ordersDockerImage = new docker.Image('orders-image', {
     ]
 })
 
+const cluster = new awsx.classic.ecs.Cluster('app-cluster')
+
+const orderService = new awsx.classic.ecs.FargateService('farget-orders', {
+    cluster,
+    desiredCount: 1,
+    waitForSteadyState: false,
+    taskDefinitionArgs: {
+        container:{
+            image: ordersDockerImage.ref,
+            cpu: 256,
+            memory: 512,
+        }
+    }
+})
+
 // Deploy - ECS + Fargete
+// ECS ->  Minimo 2 instancias 
